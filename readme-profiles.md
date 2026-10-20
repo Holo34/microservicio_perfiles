@@ -242,4 +242,5 @@ Link del video:
 
 ## Declaración de uso de IA
 
+Uso de Claude como asistente de código: entender código, revisión de sintaxis, uso de librerías y uso correcto de RabbitMQ, escribir borrador de gran parte del código del servicio a partir del diseño definido por el grupo (campos, rutas y eventos), adaptando patrones del demo del profesor, que luego se revisaron, modificaron y comentaron, y verificar el servicio con pruebas con datos simulados.
 
