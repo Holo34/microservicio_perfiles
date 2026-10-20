@@ -4,6 +4,6 @@ Creacion del microservicio perfiles para el sistema de chat de Arquitectura de S
 Video: https://drive.google.com/file/d/1gQBrwDoF2F9CUtadWzywvcmAL8D8D9Da/view?usp=sharing
 
 Roles:
-202373627-9
-202373626-0
-202160584-3
+-202373627-9
+-202373626-0
+-202160584-3
