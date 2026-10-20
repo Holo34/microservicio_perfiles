@@ -1,0 +1,88 @@
+services:
+  users:
+    build: ./users
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./users/app:/app/app
+    environment:
+      MONGODB_URL: mongodb://users-mongodb:27017
+    networks:
+      - microsvcs
+
+  channels:
+    build: ./channels
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./channels/app:/app/app
+    environment:
+      MONGODB_URL: mongodb://channels-mongodb:27017
+    networks:
+      - microsvcs
+
+  messages:
+    build: ./messages
+    ports:
+      - "8003:8000"
+    volumes:
+      - ./messages/app:/app/app
+    environment:
+      USERS_URL: http://users:8000
+      CHANNELS_URL: http://channels:8000
+      MONGODB_URL: mongodb://messages-mongodb:27017
+    networks:
+      - microsvcs
+
+  profiles:
+    build: ./profiles
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./profiles/app:/code/app
+      - avatars-data:/tmp/avatars
+    environment:
+      USERS_URL: "http://users:8000"
+      MONGODB_URL: "mongodb://profiles-mongodb:27017"
+      RABBITMQ_URL: "amqp://guest:guest@demo_04_message_broker:5672/"
+      PUBLIC_URL: "http://localhost:8000"
+      AVATARS_DIR: "/tmp/avatars"
+    networks:
+      - microsvcs
+
+  users-mongodb:
+    image: mongo:7
+    volumes: [users-data:/data/db]
+    networks: [microsvcs]
+  channels-mongodb:
+    image: mongo:7
+    volumes: [channels-data:/data/db]
+    networks: [microsvcs]
+  messages-mongodb:
+    image: mongo:7
+    volumes: [messages-data:/data/db]
+    networks: [microsvcs]
+  
+  profiles-mongodb:
+    image: mongo:7
+    volumes: [profiles-data:/data/db]
+    networks: [microsvcs]
+
+  demo_04_message_broker:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - microsvcs
+
+volumes:
+  users-data:
+  channels-data:
+  messages-data:
+  profiles-data:
+  avatars-data:
+
+networks:
+  microsvcs:
+    name: microsvcs
